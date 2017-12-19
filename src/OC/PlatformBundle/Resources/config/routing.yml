@@ -1,0 +1,3 @@
+oc_platform_homepage:
+    path:     /alae
+    defaults: { _controller: OCPlatformBundle:Default:index }
