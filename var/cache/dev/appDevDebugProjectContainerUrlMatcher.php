@@ -104,19 +104,22 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // oc_platform_homepage
-        if ('/alae' === $pathinfo) {
-            return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\DefaultController::indexAction',  '_route' => 'oc_platform_homepage',);
-        }
-
-        // homepage
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'homepage'));
+        elseif (0 === strpos($pathinfo, '/platform')) {
+            // oc_platform_home
+            if ('/platform' === $pathinfo) {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::indexAction',  '_route' => 'oc_platform_home',);
             }
 
-            return $ret;
+            // oc_platform_view
+            if (0 === strpos($pathinfo, '/platform/advert') && preg_match('#^/platform/advert/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'oc_platform_view')), array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::viewAction',));
+            }
+
+            // oc_platform_add
+            if ('/platform/add' === $pathinfo) {
+                return array (  '_controller' => 'OC\\PlatformBundle\\Controller\\AdvertController::addAction',  '_route' => 'oc_platform_add',);
+            }
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
