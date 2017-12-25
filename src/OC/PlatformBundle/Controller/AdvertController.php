@@ -23,14 +23,14 @@ class AdvertController extends Controller
         // Ici, on récupérera la liste des annonces, puis on la passera au template
 
         // Mais pour l'instant, on ne fait qu'appeler le template
-        return $this->render('OCPlatformBundle:Advert:index.html.twig');
+        return $this->render('@OCPlatform/Advert/index.html.twig');
     }
 
     public function viewAction($id)
     {
         // Ici, on récupérera l'annonce correspondante à l'id $id
 
-        return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
+        return $this->render('@OCPlatform/Advert/view.html.twig', array(
             'id' => $id
         ));
     }
@@ -50,7 +50,7 @@ class AdvertController extends Controller
         }
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('OCPlatformBundle:Advert:add.html.twig');
+        return $this->render('@OCPlatform/Advert/add.html.twig');
     }
 
     public function editAction($id, Request $request)
@@ -74,5 +74,20 @@ class AdvertController extends Controller
         // Ici, on gérera la suppression de l'annonce en question
 
         return $this->render('OCPlatformBundle:Advert:delete.html.twig');
+    }
+
+    public function menuAction(){
+        $listAdverts = array(
+            array('id' => 2, 'title' => 'Recherche développeur Symfony'),
+            array('id' => 5, 'title' => 'Mission de webmaster'),
+            array('id' => 9, 'title' => 'Offre de stage webdesigner')
+        );
+
+        return $this->render('@OCPlatform/Advert/menu.html.twig', array(
+            // Tout l'intérêt est ici : le contrôleur passe
+            // les variables nécessaires au template !
+            'listAdverts' => $listAdverts
+        ));
+
     }
 }
